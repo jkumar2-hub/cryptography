@@ -2,8 +2,8 @@
 # PROGRAM 3: Polyalphabetic Cipher (Vigenere) – Encryption & Decryption
 # =============================================================================
 # Description:
-#   The Vigenere Cipher uses a repeating keyword to shift each letter of the
-#   plaintext by a variable amount, making frequency analysis harder.
+#   Uses a repeating keyword to apply a different Caesar shift to each letter,
+#   making frequency analysis significantly harder than monoalphabetic ciphers.
 #
 # Algorithm:
 #   Encryption: C[i] = (P[i] + K[i mod len(K)]) mod 26
@@ -11,7 +11,6 @@
 # =============================================================================
 
 def vigenere_encrypt(plaintext, key):
-    """Encrypt plaintext using the Vigenere cipher."""
     key       = key.upper()
     result    = ""
     key_index = 0
@@ -26,7 +25,6 @@ def vigenere_encrypt(plaintext, key):
 
 
 def vigenere_decrypt(ciphertext, key):
-    """Decrypt ciphertext using the Vigenere cipher."""
     key       = key.upper()
     result    = ""
     key_index = 0
@@ -40,34 +38,28 @@ def vigenere_decrypt(ciphertext, key):
     return result
 
 
-def run_demo():
-    """Run 4 sample input/output demonstrations."""
+def main():
+    print("=" * 60)
+    print("  POLYALPHABETIC (VIGENERE) CIPHER - Encryption & Decryption")
+    print("=" * 60)
 
-    test_cases = [
-        ("HELLOWORLD",           "KEY"),
-        ("CRYPTOGRAPHY",         "SECRET"),
-        ("ATTACK AT DAWN",       "LEMON"),
-        ("THE QUICK BROWN FOX",  "CIPHER"),
-    ]
+    message = input("\nEnter the plaintext message : ").strip()
+    key     = input("Enter the keyword           : ").strip()
 
-    print("=" * 65)
-    print("  POLYALPHABETIC (VIGENERE) CIPHER – Encryption & Decryption")
-    print("=" * 65)
+    if not key.isalpha():
+        print("\n  [ERROR] Key must contain only alphabetic characters.")
+        return
 
-    for i, (message, key) in enumerate(test_cases, start=1):
-        encrypted = vigenere_encrypt(message, key)
-        decrypted = vigenere_decrypt(encrypted, key)
-        match     = "OK" if decrypted == message.upper() else "FAIL"
+    encrypted = vigenere_encrypt(message, key)
+    decrypted = vigenere_decrypt(encrypted, key)
 
-        print(f"\n  --- Test Case {i} ---")
-        print(f"  Plaintext  : {message}")
-        print(f"  Keyword    : {key}")
-        print(f"  Encrypted  : {encrypted}")
-        print(f"  Decrypted  : {decrypted}")
-        print(f"  Status     : [{match}]")
-
-    print("\n" + "=" * 65)
+    print("\n" + "-" * 60)
+    print(f"  Plaintext  : {message.upper()}")
+    print(f"  Keyword    : {key.upper()}")
+    print(f"  Encrypted  : {encrypted}")
+    print(f"  Decrypted  : {decrypted}")
+    print("-" * 60)
 
 
 if __name__ == "__main__":
-    run_demo()
+    main()
