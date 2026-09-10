@@ -2,17 +2,17 @@
 # PROGRAM 6: Rail Fence Cipher – Message Encryption & Decryption
 # =============================================================================
 # Description:
-#   The Rail Fence Cipher writes plaintext in a zigzag pattern across n rails,
-#   then reads each rail sequentially to produce the ciphertext.
+#   A transposition cipher that writes plaintext diagonally across n rails
+#   in a zigzag pattern, then reads each rail left-to-right to form the
+#   ciphertext.
 #
 # Algorithm:
-#   Encryption: place characters on rails in zigzag order, read rail by rail.
-#   Decryption: determine rail lengths, fill rails from ciphertext, re-read
-#               characters in zigzag order.
+#   Encryption: place characters in zigzag order, read rail by rail.
+#   Decryption: determine rail lengths, fill rails from ciphertext,
+#               re-read in zigzag order.
 # =============================================================================
 
 def rail_fence_encrypt(plaintext, num_rails):
-    """Encrypt plaintext using Rail Fence Cipher."""
     rails     = [[] for _ in range(num_rails)]
     rail      = 0
     direction = 1
@@ -27,7 +27,6 @@ def rail_fence_encrypt(plaintext, num_rails):
 
 
 def rail_fence_decrypt(ciphertext, num_rails):
-    """Decrypt ciphertext using Rail Fence Cipher."""
     n            = len(ciphertext)
     rail_pattern = []
     rail         = 0
@@ -55,36 +54,32 @@ def rail_fence_decrypt(ciphertext, num_rails):
     return ''.join(result)
 
 
-def run_demo():
-    """Run 4 sample input/output demonstrations."""
+def main():
+    print("=" * 58)
+    print("      RAIL FENCE CIPHER - Encryption & Decryption")
+    print("=" * 58)
 
-    test_cases = [
-        ("WEAREDISCOVERED",       3),
-        ("HELLOWORLD",            2),
-        ("CRYPTOGRAPHY",          4),
-        ("THE QUICK BROWN FOX",   3),
-    ]
+    message   = input("\nEnter the plaintext message : ").strip()
+    num_rails = int(input("Enter the number of rails   : ").strip())
 
-    print("=" * 62)
-    print("       RAIL FENCE CIPHER – Encryption & Decryption")
-    print("=" * 62)
+    if num_rails < 2:
+        print("\n  [ERROR] Number of rails must be at least 2.")
+        return
 
-    for i, (message, rails) in enumerate(test_cases, start=1):
-        encrypted, rail_contents = rail_fence_encrypt(message, rails)
-        decrypted                = rail_fence_decrypt(encrypted, rails)
-        match                    = "OK" if decrypted == message else "FAIL"
+    encrypted, rails = rail_fence_encrypt(message, num_rails)
+    decrypted        = rail_fence_decrypt(encrypted, num_rails)
 
-        print(f"\n  --- Test Case {i} ---")
-        print(f"  Plaintext  : {message}")
-        print(f"  Rails      : {rails}")
-        for r, content in enumerate(rail_contents):
-            print(f"  Rail {r}      : {''.join(content)}")
-        print(f"  Encrypted  : {encrypted}")
-        print(f"  Decrypted  : {decrypted}")
-        print(f"  Status     : [{match}]")
+    print(f"\n  Rail contents:")
+    for i, rail_chars in enumerate(rails):
+        print(f"    Rail {i} : {''.join(rail_chars)}")
 
-    print("\n" + "=" * 62)
+    print("\n" + "-" * 58)
+    print(f"  Plaintext  : {message}")
+    print(f"  Rails      : {num_rails}")
+    print(f"  Encrypted  : {encrypted}")
+    print(f"  Decrypted  : {decrypted}")
+    print("-" * 58)
 
 
 if __name__ == "__main__":
-    run_demo()
+    main()
